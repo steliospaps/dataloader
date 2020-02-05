@@ -31,8 +31,8 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:git://github.com/steliospaps/dataloader.git</connection>
-		<developerConnection>scm:git:ssh://github.com/steliospaps/dataloader.git</developerConnection>
+		<connection>scm:git:https://github.com/steliospaps/dataloader.git</connection>
+		<developerConnection>scm:git:git@github.com:steliospaps/dataloader.git</developerConnection>
 		<url>http://github.com/steliospaps/dataloader/tree/master</url>
 	</scm>
 
