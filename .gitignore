@@ -1,4 +1,9 @@
 /target
+#eclipse
 /.classpath
 /.project
 /.settings/
+#release plugin
+pom.xml.releaseBackup
+release.properties
+
