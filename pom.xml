@@ -4,7 +4,7 @@
 
 	<groupId>io.github.steliospaps</groupId>
 	<artifactId>dataloader</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>My interpretation of the facebook dataloader pattern. Wrap a batching api and expose it a non batching one</description>
@@ -32,7 +32,7 @@
 		<connection>scm:git:https://github.com/steliospaps/dataloader.git</connection>
 		<developerConnection>scm:git:git@github.com:steliospaps/dataloader.git</developerConnection>
 		<url>http://github.com/steliospaps/dataloader/tree/master</url>
-	  <tag>dataloader-0.0.1</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<properties>
