@@ -27,6 +27,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import io.github.steliospaps.dataloader.DataLoader;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Hooks;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -39,8 +40,9 @@ class ReactorBasedDataLoaderTest {
 	private ArgumentCaptor<List<Integer>> listCaptor;
 
 	@BeforeAll
-	public static void setupTimeouts() {
+	public static void setupBeforeAll() {
 		StepVerifier.setDefaultTimeout(Duration.ofMillis(100));
+		Hooks.onOperatorDebug();
 	}
 
 	@Test
@@ -119,10 +121,9 @@ class ReactorBasedDataLoaderTest {
 
 		// using step verifier to delay time
 		StepVerifier.withVirtualTime(() -> {
-			dataloader.set(ReactorDataLoader.create(listFunction,
-					ReactorDataLoaderConfig.builder()//
-						.maxBatchSize(batchSize)//
-						.build()));
+			dataloader.set(ReactorDataLoader.create(listFunction, ReactorDataLoaderConfig.builder()//
+					.maxBatchSize(batchSize)//
+					.build()));
 			for (int i = 0; i < inputCount; i++) {
 				results.get(i).set(dataloader.get().apply(i));
 			}
@@ -163,5 +164,60 @@ class ReactorBasedDataLoaderTest {
 					}
 				})//
 				.verifyComplete();
+	}
+
+	@Test
+	void testErrorGetsPropagated() throws Exception {
+		when(listFunction.apply(any())).thenThrow(RuntimeException.class);
+		
+		verifyFutureErrors();
+	}
+	@Test
+	void testMonoErrorGetsPropagated() throws Exception {		
+		when(listFunction.apply(any())).thenReturn(Mono.error(new RuntimeException("foo")));
+		
+		verifyFutureErrors();
+	}
+
+	private void verifyFutureErrors() {
+		var dataloader = new AtomicReference<DataLoader<String, Integer>>();
+		var f1 = new AtomicReference<CompletableFuture<String>>();
+		// using step verifier to delay time
+		StepVerifier.withVirtualTime(() -> {
+			dataloader.set(ReactorDataLoader.create(listFunction));
+			f1.set(dataloader.get().apply(1));
+			return Flux.empty();
+		})//
+				.then(() -> Mockito.verifyNoInteractions(listFunction))//
+				.thenAwait(Duration.ofMillis(200))//
+				.then(() -> {
+					verify(listFunction).apply(List.of(1));
+					assertTrue(f1.get().isDone());
+					try {
+						assertTrue(f1.get().isCompletedExceptionally());
+						try {
+							f1.get().get();
+							fail("should have thrown!");
+						} catch (ExecutionException e) {
+							// I want this to happen
+						}
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+				})//
+				.verifyComplete();
+	}
+
+	@Test
+	void testNoMemoryLeak() throws Exception {
+		//prove that there is no memory leak (no need to shutdown EmiterProcessor)
+		System.gc();
+		long initial = Runtime.getRuntime().freeMemory();
+		for(int i =0 ;i < 1_00_000 ;i++) {
+			ReactorDataLoader.create(listFunction);
+		}
+		System.gc();
+		long endly = Runtime.getRuntime().freeMemory();
+		assertTrue(endly-initial <1000);
 	}
 }
