@@ -57,7 +57,7 @@ public class ReactorDataLoader {
 			}
 
 			@Override
-			public CompletableFuture<R> apply(T input) {
+			public CompletableFuture<R> load(T input) {
 				CompletableFuture<R> res = new CompletableFuture<R>();
 				emitterProcessor.onNext(Tuples.of(input,r -> res.complete(r),t -> res.completeExceptionally(t)));
 				return res;
@@ -115,7 +115,7 @@ public class ReactorDataLoader {
 			}
 
 			@Override
-			public CompletableFuture<Optional<R>> apply(T input) {
+			public CompletableFuture<Optional<R>> load(T input) {
 				var res = new CompletableFuture<Optional<R>>();
 				emitterProcessor.onNext(Tuples.of(input,r -> res.complete(r),t -> res.completeExceptionally(t)));
 				return res;

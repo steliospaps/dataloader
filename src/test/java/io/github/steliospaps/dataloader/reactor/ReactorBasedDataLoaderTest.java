@@ -56,7 +56,7 @@ class ReactorBasedDataLoaderTest {
 			// using step verifier to delay time
 			StepVerifier.withVirtualTime(() -> {
 				dataloader.set(ReactorDataLoader.create(listFunction));
-				f1.set(dataloader.get().apply(1));
+				f1.set(dataloader.get().load(1));
 				return Flux.empty();
 			})//
 					.then(() -> Mockito.verifyNoInteractions(listFunction))//
@@ -83,8 +83,8 @@ class ReactorBasedDataLoaderTest {
 			// using step verifier to delay time
 			StepVerifier.withVirtualTime(() -> {
 				dataloader.set(ReactorDataLoader.create(listFunction));
-				f1.set(dataloader.get().apply(1));
-				f2.set(dataloader.get().apply(2));
+				f1.set(dataloader.get().load(1));
+				f2.set(dataloader.get().load(2));
 				return Flux.empty();
 			})//
 					.then(() -> Mockito.verifyNoInteractions(listFunction))//
@@ -127,7 +127,7 @@ class ReactorBasedDataLoaderTest {
 						.maxBatchSize(batchSize)//
 						.build()));
 				for (int i = 0; i < inputCount; i++) {
-					results.get(i).set(dataloader.get().apply(i));
+					results.get(i).set(dataloader.get().load(i));
 				}
 				return Flux.empty();
 			})//
@@ -188,7 +188,7 @@ class ReactorBasedDataLoaderTest {
 			// using step verifier to delay time
 			StepVerifier.withVirtualTime(() -> {
 				dataloader.set(ReactorDataLoader.create(listFunction));
-				f1.set(dataloader.get().apply(1));
+				f1.set(dataloader.get().load(1));
 				return Flux.empty();
 			})//
 					.then(() -> Mockito.verifyNoInteractions(listFunction))//
@@ -228,7 +228,7 @@ class ReactorBasedDataLoaderTest {
 			// using step verifier to delay time
 			StepVerifier.withVirtualTime(() -> {
 				dataloader.set(ReactorDataLoader.create(mapFunction));
-				f1.set(dataloader.get().apply(1));
+				f1.set(dataloader.get().load(1));
 				return Flux.empty();
 			})//
 					.then(() -> Mockito.verifyNoInteractions(mapFunction))//
@@ -256,9 +256,9 @@ class ReactorBasedDataLoaderTest {
 			// using step verifier to delay time
 			StepVerifier.withVirtualTime(() -> {
 				dataloader.set(ReactorDataLoader.create(mapFunction));
-				f1.set(dataloader.get().apply(1));
-				f2.set(dataloader.get().apply(2));
-				f3.set(dataloader.get().apply(3));
+				f1.set(dataloader.get().load(1));
+				f2.set(dataloader.get().load(2));
+				f3.set(dataloader.get().load(3));
 				return Flux.empty();
 			})//
 					.then(() -> Mockito.verifyNoInteractions(mapFunction))//
@@ -303,7 +303,7 @@ class ReactorBasedDataLoaderTest {
 						.maxBatchSize(batchSize)//
 						.build()));
 				for (int i = 0; i < inputCount; i++) {
-					results.get(i).set(dataloader.get().apply(i));
+					results.get(i).set(dataloader.get().load(i));
 				}
 				return Flux.empty();
 			})//
@@ -364,7 +364,7 @@ class ReactorBasedDataLoaderTest {
 			// using step verifier to delay time
 			StepVerifier.withVirtualTime(() -> {
 				dataloader.set(ReactorDataLoader.create(mapFunction));
-				f1.set(dataloader.get().apply(1));
+				f1.set(dataloader.get().load(1));
 				return Flux.empty();
 			})//
 					.then(() -> Mockito.verifyNoInteractions(mapFunction))//

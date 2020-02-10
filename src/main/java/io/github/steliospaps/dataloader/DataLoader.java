@@ -4,6 +4,6 @@ import java.util.concurrent.CompletableFuture;
 
 public interface DataLoader<R, T> {
 
-	CompletableFuture<R> apply(T input);
+	CompletableFuture<R> load(T input);
 	
 }
