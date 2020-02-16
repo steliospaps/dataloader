@@ -1,17 +1,17 @@
-# about
+# dataloader
 (under construction)
-* [![Build Status](https://travis-ci.org/steliospaps/dataloader.svg?branch=master)](https://travis-ci.org/steliospaps/dataloader)
-* dataloader: [![Maven Central](https://img.shields.io/maven-central/v/io.github.steliospaps/dataloader.svg?maxAge=2592000)](https://search.maven.org/search?q=g:io.github.steliospaps%20a:dataloader)
-[![Javadocs](https://img.shields.io/badge/javadoc-0.1.0-blue.svg?color=blue)](https://www.javadoc.io/doc/io.github.steliospaps/dataloader)
 
-dataloader
+[![Build Status](https://travis-ci.org/steliospaps/dataloader.svg?branch=master)](https://travis-ci.org/steliospaps/dataloader)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.steliospaps/dataloader.svg?maxAge=2592000)](https://search.maven.org/search?q=g:io.github.steliospaps%20a:dataloader)
+[![Javadocs](https://img.shields.io/badge/javadoc-blue.svg)](https://www.javadoc.io/doc/io.github.steliospaps/dataloader)
 
-A java version of the dataloader pattern
+A java version of the dataloader pattern.
+
 This is my take of the facebook dataloader pattern.
 
 Similar to the [java-dataloader](https://github.com/graphql-java/java-dataloader) but it is not graphql related.
 
-wrap a batch api, and allow multiple requests to be batched under the hood. This is a [reactor](https://projectreactor.io/)-based dataloader
+Wrap a batch api, and allow multiple requests to be batched under the hood. This is a [reactor](https://projectreactor.io/)-based dataloader
 
 # usage
 
@@ -21,7 +21,7 @@ wrap a batch api, and allow multiple requests to be batched under the hood. This
 <dependency>
   <groupId>io.github.steliospaps</groupId>
   <artifactId>dataloader</artifactId>
-  <version>0.2.0</version>
+  <version>xxx</version>
 </dependency>
 ```
 
